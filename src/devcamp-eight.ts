@@ -51,9 +51,14 @@ export class DevcampEight extends ScopedElementsMixin(LitElement) {
                     <golden-layout-component
                       component-type="call-zome-fns"
                     ></golden-layout-component>
-                    <golden-layout-component
-                      component-type="zome-fns-results"
-                    ></golden-layout-component>
+                    <golden-layout-stack>
+                      <golden-layout-component
+                        component-type="entry-contents"
+                      ></golden-layout-component>
+                      <golden-layout-component
+                        component-type="zome-fns-results"
+                      ></golden-layout-component>
+                    </golden-layout-stack>
                   </golden-layout-row>
                   <golden-layout-stack>
                     <golden-layout-component
