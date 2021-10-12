@@ -89,7 +89,7 @@ export const start_game_session_with_code =
 export const get_my_own_sessions_via_source_query =
   (hdk: Hdk.Hdk) => async () => {
     const results = await hdk.query({});
-    console.log(results);
+
     const sessions_elements = results.filter(element =>
       isEqual(
         (element.signed_header.header.content as NewEntryHeader).entry_type,
