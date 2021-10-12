@@ -11,7 +11,7 @@
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "gh-pages": "gh-pages -d ./dist -b gh-pages"
+    "gh-pages": "npm run build && gh-pages -d ./dist -b gh-pages"
   },
   "dependencies": {
     "@holochain-open-dev/core-types": "^0.1.1",
