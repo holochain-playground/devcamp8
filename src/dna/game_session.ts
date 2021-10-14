@@ -8,6 +8,7 @@ import {
 } from '@holochain-open-dev/core-types';
 import { get_game_code_anchor } from './game_code';
 import { get_player_profiles_for_game_code } from './player_profile';
+import { GameRound } from './game_round';
 
 export interface GameParams {
   regeneration_factor: number;
@@ -69,7 +70,35 @@ export const new_session =
       tag: 'GAME_SESSION',
     });
 
-    return hash;
+    // Start round 0 directly
+
+    const gameRound: GameRound = {
+      round_num: 0,
+      session: hash,
+      state: {
+        resources_left: 100,
+        player_stats: {},
+        resources_grown: 0,
+        resources_taken: 0,
+      },
+    };
+
+    await hdk.create_entry({
+      content: gameRound,
+      entry_def_id: 'game_round',
+    });
+
+    const round_hash = await hdk.hash_entry({
+      content: gameRound,
+    });
+
+    await hdk.create_link({
+      base: hash,
+      target: round_hash,
+      tag: 'SESSION_ROUND',
+    });
+
+    return round_hash;
   };
 
 export const start_game_session_with_code =

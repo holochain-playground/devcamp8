@@ -4,6 +4,8 @@ import {
   SimulatedHappBundle,
 } from '@holochain-playground/core';
 import { create_game_code_anchor } from './game_code';
+import { new_move } from './game_move';
+import { try_to_close_round } from './game_round';
 import {
   get_my_own_sessions_via_source_query,
   start_game_session_with_code,
@@ -30,6 +32,14 @@ export const gameLogicZome: SimulatedZome = {
     },
     {
       id: 'game_session',
+      visibility: 'Public',
+    },
+    {
+      id: 'game_round',
+      visibility: 'Public',
+    },
+    {
+      id: 'game_move',
       visibility: 'Public',
     },
   ],
@@ -68,6 +78,29 @@ export const gameLogicZome: SimulatedZome = {
     get_my_owned_sessions: {
       call: hdk => async () => get_my_own_sessions_via_source_query(hdk)(),
       arguments: [],
+    },
+    make_new_move: {
+      call:
+        hdk =>
+        async ({ round_entry_hash, resource_amount }) =>
+          new_move(hdk)(resource_amount, round_entry_hash),
+      arguments: [
+        {
+          name: 'round_entry_hash',
+          type: 'string',
+        },
+        {
+          name: 'resource_amount',
+          type: 'number',
+        },
+      ],
+    },
+    try_to_close_round: {
+      call:
+        hdk =>
+        async ({ round_hash }) =>
+          try_to_close_round(hdk)(round_hash),
+      arguments: [{ name: 'round_hash', type: 'string' }],
     },
   },
   validation_functions: {},
